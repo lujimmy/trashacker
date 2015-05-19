@@ -1,0 +1,8 @@
+---
+applications:
+- name: trashacker
+  memory: 512M
+  instances: 1
+  host: trashacker
+  path: build/libs/trashacker.jar
+
