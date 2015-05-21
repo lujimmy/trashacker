@@ -2,7 +2,7 @@ package org.trashacker.data.domain;
 
 import java.util.Date;
 
-/* table : garbage_type*/
+/* table : garbage_type */
 public class GeneralInformation {
 
 	private String id;

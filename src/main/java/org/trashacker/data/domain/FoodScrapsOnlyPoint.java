@@ -1,28 +1,31 @@
 package org.trashacker.data.domain;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.GregorianCalendar;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /* table : food_scraps  */
+@Entity
 public class FoodScrapsOnlyPoint {
 	
-	final static public GarbageType collectType = GarbageType.FOOD_SCRAP;
+	final static public GarbageType GARBAGE_TYPE = GarbageType.FOOD_SCRAP;
 	
+	final static public GregorianCalendar START_TIME = new GregorianCalendar(0,0,0,18,0);
+	
+	final static public GregorianCalendar END_TIME = new GregorianCalendar(0,0,0,21,0);
+	
+	final static public String WEEK_DAYS = "3,7";
+	
+	@Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private String id;
 	private String name;
 	private String address;
 	private float lat;
 	private float lng;	
-
-	/* linktable : garbage_go_location*/
-	private GeneralInformation generalInformation;
-	
-	public GeneralInformation getGeneralInformation() {
-		return generalInformation;
-	}
-	public void setGeneralInformation(GeneralInformation generalInformation) {
-		this.generalInformation = generalInformation;
-	}	
 	
 	public String getId() {
 		return id;

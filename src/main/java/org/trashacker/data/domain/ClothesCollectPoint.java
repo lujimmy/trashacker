@@ -1,21 +1,23 @@
 package org.trashacker.data.domain;
 
-import java.util.Arrays;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class ClothesCollectPoint {
 	
-	final static public GarbageType collectType = GarbageType.CLOTHES;
-
+	final static public GarbageType GARBAGE_TYPE = GarbageType.CLOTHES;
+	
+	@Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private String id;
 	private String name;
 	private String addressForDisplay;
 	private String address;
 	private float lat;
 	private float lng;
-	
-	/* linktable : garbage_go_location*/
-	private GeneralInformation generalInformation;
 
 	public String getId() {
 		return id;
@@ -64,14 +66,5 @@ public class ClothesCollectPoint {
 	public void setLng(float lng) {
 		this.lng = lng;
 	}
-
-	public GeneralInformation getGeneralInformation() {
-		return generalInformation;
-	}
-
-	public void setGeneralInformation(GeneralInformation generalInformation) {
-		this.generalInformation = generalInformation;
-	}
-	
 	
 }

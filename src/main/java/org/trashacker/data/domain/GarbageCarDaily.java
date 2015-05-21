@@ -2,13 +2,24 @@ package org.trashacker.data.domain;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /* table : garbage_car_daily */
+@Entity
 public class GarbageCarDaily {
 
-	final static public List<GarbageType> collectTypes = Arrays.asList(GarbageType.GENERAL,GarbageType.FOOD_SCRAP, GarbageType.RECYCLE);
+	final static public List<GarbageType> collectGarbageTypes = Arrays.asList(GarbageType.GENERAL,GarbageType.FOOD_SCRAP, GarbageType.RECYCLE);
+		
+	final static public String WEEK_DAYS = "1,2,4,5,6";
 
+	@Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private String id;
 	private String carNo;
 	private int carNumber;
@@ -16,17 +27,7 @@ public class GarbageCarDaily {
 	private float lat;
 	private float lng;
 	private Date arriveTime;
-	
-	/* linktable : garbage_go_location*/
-	private GeneralInformation generalInformation;
-	
-	public GeneralInformation getGeneralInformation() {
-		return generalInformation;
-	}
-	public void setGeneralInformation(GeneralInformation generalInformation) {
-		this.generalInformation = generalInformation;
-	}
-	
+
 	public String getId() {
 		return id;
 	}

@@ -1,30 +1,35 @@
 package org.trashacker.data.domain;
 
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /* table : recycling_food_scraps_daily */
+@Entity
 public class FixedCollectPoint {
 	
-	final static public List<GarbageType> collectTypes = Arrays.asList(GarbageType.GENERAL,GarbageType.FOOD_SCRAP, GarbageType.RECYCLE);
+	final static public List<GarbageType> GARBAGE_TYPES = Arrays.asList(GarbageType.GENERAL,GarbageType.FOOD_SCRAP, GarbageType.RECYCLE);
 	
+	final static public GregorianCalendar START_TIME = new GregorianCalendar(0,0,0,6,0);
+	
+	final static public GregorianCalendar END_TIME = new GregorianCalendar(0,0,0,21,0);
+	
+	final static public String WEEK_DAYS = "1,2,3,4,5,6,7";
+	
+	@Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private String id;
 	private String name;
 	private String address;
 	private String phoneNum;
 	private float lat;
 	private float lng;
-	
-	/* linktable : garbage_go_location*/
-	private GeneralInformation generalInformation;
-	
-	public GeneralInformation getGeneralInformation() {
-		return generalInformation;
-	}
-	public void setGeneralInformation(GeneralInformation generalInformation) {
-		this.generalInformation = generalInformation;
-	}	
-	
+
 	public String getId() {
 		return id;
 	}
