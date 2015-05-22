@@ -6,7 +6,7 @@ import org.trashacker.domain.MedicationDisposalSite;
 import org.trashacker.domain.RecyclingFoodWasteDepot;
 import org.trashacker.domain.WedSunFoodWasteDepot;
 
-public class SearchSesultBean {
+public class SearchResultBean {
 
 	private Iterable<ClothesRecyclingBox> clothesPoints;
 	private Iterable<MedicationDisposalSite> drugsPoints;
