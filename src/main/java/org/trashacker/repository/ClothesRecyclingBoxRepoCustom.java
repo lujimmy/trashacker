@@ -7,7 +7,6 @@ import org.trashacker.domain.ClothesRecyclingBox;
  * @since 15/5/22
  */
 public interface ClothesRecyclingBoxRepoCustom {
-	
-	Iterable<ClothesRecyclingBox> getByLocationRange(float maxLat, float minLat, float maxLng, float minLng);
-	
+
+    Iterable<ClothesRecyclingBox> getByLocationRange(float maxLat, float minLat, float maxLng, float minLng);
 }

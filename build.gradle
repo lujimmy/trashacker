@@ -8,7 +8,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("io.spring.gradle:dependency-management-plugin:0.5.1.RELEASE")
     }
 }
@@ -16,7 +16,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
 
 jar {
@@ -43,15 +43,19 @@ dependencies {
     compile "org.springframework.cloud:spring-cloud-cloudfoundry-connector:1.1.1.RELEASE"
     compile 'com.google.guava:guava:18.0'
     compile 'io.reactivex:rxjava:1.0.10'
-    runtime 'mysql:mysql-connector-java:5.1.35'
-//    runtime("com.h2database:h2")
+//    runtime 'mysql:mysql-connector-java:5.1.35'
+    compile("com.h2database:h2")
 }
 
+bootRun {
+    // support passing -Dsystem.property=value to bootRun task
+    systemProperties = System.properties
+}
 
 eclipse {
     classpath {
-         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+        containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+        containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
     }
 }
 

@@ -10,10 +10,8 @@ import org.trashacker.domain.RecyclingFoodWasteDepot;
 @Repository
 public class RecyclingFoodWasteDepotRepoImpl implements RecyclingFoodWasteDepotRepoCustom {
 
-	@Override
-	public Iterable<RecyclingFoodWasteDepot> getByLocationRange(float maxLat,
-			float minLat, float maxLng, float minLng) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Iterable<RecyclingFoodWasteDepot> getByLocationRange(float maxLat, float minLat, float maxLng, float minLng) {
+        return null;
+    }
 }

@@ -10,17 +10,13 @@ import org.trashacker.domain.GarbageTruckRoadmap;
 @Repository
 public class GarbageTruckRoadmapRepoImpl implements GarbageTruckRoadmapRepoCustom {
 
-	@Override
-	public Iterable<GarbageTruckRoadmap> getByLocationRange(float maxLat,
-			float minLat, float maxLng, float minLng) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Iterable<GarbageTruckRoadmap> getByLocationRange(float maxLat, float minLat, float maxLng, float minLng) {
+        return null;
+    }
 
-	@Override
-	public Iterable<GarbageTruckRoadmap> getByArriveTimeRange(int startHour,
-			int startmin, int endHour, int endMin) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Iterable<GarbageTruckRoadmap> getByArriveTimeRange(int startHour, int startMin, int endHour, int endMin) {
+        return null;
+    }
 }
