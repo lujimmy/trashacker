@@ -94,13 +94,13 @@ CREATE TABLE `trashacker`.`garbage_classification_instruction` (
   `category` VARCHAR(10) NULL COMMENT '分類大類別',
   `sub_category` VARCHAR(10) NULL COMMENT '分類子類別',
   `keyword` VARCHAR(100) NULL COMMENT '關鍵字',
-  `collectAtMon` BIT(1) NOT NULL,
-  `collectAtTue` BIT(1) NOT NULL,
-  `collectAtWed` BIT(1) NOT NULL,
-  `collectAtThu` BIT(1) NOT NULL,
-  `collectAtFri` BIT(1) NOT NULL,
-  `collectAtSat` BIT(1) NOT NULL,
-  `collectAtSun` BIT(1) NOT NULL);
+  `at_monday` BIT(1) NOT NULL,
+  `at_tudsday` BIT(1) NOT NULL,
+  `at_wednesday` BIT(1) NOT NULL,
+  `at_thursday` BIT(1) NOT NULL,
+  `at_friday` BIT(1) NOT NULL,
+  `at_saturday` BIT(1) NOT NULL,
+  `at_sunday` BIT(1) NOT NULL);
 
 ALTER TABLE `trashacker`.`garbage_classification_instruction`
 ADD INDEX `keyword` (`keyword` ASC);
