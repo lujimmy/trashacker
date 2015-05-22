@@ -6,13 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
-import org.trashacker.data.domain.PointType;
 import org.trashacker.domain.ClothesRecyclingBox;
 import org.trashacker.domain.GarbageTruckRoadmap;
 import org.trashacker.domain.MedicationDisposalSite;
 import org.trashacker.domain.RecyclingFoodWasteDepot;
 import org.trashacker.domain.WedSunFoodWasteDepot;
-import org.trashacker.service.SearchSesultBean;
+import org.trashacker.service.SearchResultBean;
 
 public class CollectPointQueryResult {
 	
@@ -107,13 +106,13 @@ public class CollectPointQueryResult {
 		
 	}
 	
-	public CollectPointQueryResult(SearchSesultBean searchSesultBean){
+	public CollectPointQueryResult(SearchResultBean searchSesultBean){
 		if (searchSesultBean != null){
 			this.loadData(searchSesultBean);
 		}
 	}
 	
-	private void loadData(SearchSesultBean searchSesultBean){
+	private void loadData(SearchResultBean searchSesultBean){
 		
 		if (searchSesultBean.getGarbageCar() != null){
 			Iterator<GarbageTruckRoadmap> trashCars = searchSesultBean.getGarbageCar().iterator();
