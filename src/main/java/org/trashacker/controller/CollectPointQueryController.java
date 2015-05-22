@@ -5,11 +5,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.trashacker.controller.CollectPointQueryResult.CollectPoint;
 import org.trashacker.service.SearchCollectPointService;
+import org.trashacker.service.SearchSesultBean;
 
 @RestController
 public class CollectPointQueryController {
@@ -22,7 +24,28 @@ public class CollectPointQueryController {
     		@RequestParam(value="lat", required=false) String lat, @RequestParam(value="lng", required=false) String lng, @RequestParam(value="square", required=false) String square,
     		@RequestParam(value="startTime", required=false) String startTime, @RequestParam(value="endTime", required=false) String endTime) {
     	
-    	return this.generateFakeData(garbageType,lat,lng,square,startTime,endTime);
+    	SearchSesultBean searchResultBean = null;
+    	if (!StringUtils.isEmpty(lat) && !StringUtils.isEmpty(lng)){
+    		float latValue = Float.valueOf(lat);
+    		float lngValue = Float.valueOf(lng);
+    		float squareValue = StringUtils.isEmpty(square) ? Float.valueOf("0.0005") : Float.valueOf(square);
+    		searchResultBean = searchCollectPointService.searchAllTypePointsByLocation(latValue + squareValue, latValue - squareValue, lngValue + squareValue, lngValue - squareValue);
+    	} else if (!StringUtils.isEmpty(startTime) && !StringUtils.isEmpty(endTime)){
+    		String[] start = startTime.split(":");
+    		String[] end = endTime.split(":");
+    		
+    		searchResultBean = searchCollectPointService.searchAllTypePointsByTime(Integer.valueOf(start[0]), Integer.valueOf(start[1]), Integer.valueOf(end[0]), Integer.valueOf(end[1]));
+    	}
+    	
+    	CollectPointQueryResult response = new CollectPointQueryResult(searchResultBean);
+    	
+    	StringBuilder queryParameter = new StringBuilder();
+    	queryParameter.append("garbageType=").append(garbageType).append("&lat=").append(lat).append("&lng=").append(lng)
+    		.append("&square=").append(square).append("&startTime=").append(startTime).append("&endTime=").append(endTime);
+    	
+    	response.setQueryParameters(queryParameter.toString());
+    	
+    	return response;
     	
     }
     

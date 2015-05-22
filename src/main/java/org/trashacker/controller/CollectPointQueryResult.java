@@ -1,7 +1,18 @@
 package org.trashacker.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+
+import org.springframework.util.StringUtils;
+import org.trashacker.data.domain.PointType;
+import org.trashacker.domain.ClothesRecyclingBox;
+import org.trashacker.domain.GarbageTruckRoadmap;
+import org.trashacker.domain.MedicationDisposalSite;
+import org.trashacker.domain.RecyclingFoodWasteDepot;
+import org.trashacker.domain.WedSunFoodWasteDepot;
+import org.trashacker.service.SearchSesultBean;
 
 public class CollectPointQueryResult {
 	
@@ -89,8 +100,118 @@ public class CollectPointQueryResult {
 	}
 
 	private String queryParameters;
-	private int totalcount;
+	private int totalcount = 0;
 	private List<CollectPoint> collectionPoints = new ArrayList<CollectPoint>(1);
+	
+	public CollectPointQueryResult(){
+		
+	}
+	
+	public CollectPointQueryResult(SearchSesultBean searchSesultBean){
+		if (searchSesultBean != null){
+			this.loadData(searchSesultBean);
+		}
+	}
+	
+	private void loadData(SearchSesultBean searchSesultBean){
+		
+		if (searchSesultBean.getGarbageCar() != null){
+			Iterator<GarbageTruckRoadmap> trashCars = searchSesultBean.getGarbageCar().iterator();
+			while (trashCars.hasNext()){
+				GarbageTruckRoadmap itr = trashCars.next();
+				CollectPoint aPoint = new CollectPoint();
+				aPoint.setDataSource("trashCars");				
+				aPoint.setGarbageType(Arrays.asList("general","recycle","foodScrap"));
+				aPoint.setCarNumber(itr.getTruckId());
+				aPoint.setAddress(itr.getAddress());
+				aPoint.setLng(String.valueOf(itr.getLongitude()));
+				aPoint.setLat(String.valueOf(itr.getLatitude()));
+				aPoint.setWeekdays(Arrays.asList(1,2,4,5,6));
+				aPoint.setStartTime(itr.getArriveTime().getHours()+":"+itr.getArriveTime().getMinutes());
+				
+				collectionPoints.add(aPoint);
+				totalcount++;
+			}
+		}
+		
+		if (searchSesultBean.getFixedPoints() != null){
+			Iterator<RecyclingFoodWasteDepot> fixedPoints = searchSesultBean.getFixedPoints().iterator();
+			while (fixedPoints.hasNext()){
+				RecyclingFoodWasteDepot itr = fixedPoints.next();
+				CollectPoint aPoint = new CollectPoint();
+				aPoint.setDataSource("fixedPoints");				
+				aPoint.setGarbageType(Arrays.asList("general","recycle","foodScrap"));
+				aPoint.setName(itr.getBranch());
+				aPoint.setAddress(itr.getAddress());
+				aPoint.setLng(String.valueOf(itr.getLongitude()));
+				aPoint.setLat(String.valueOf(itr.getLatitude()));
+				aPoint.setWeekdays(Arrays.asList(1,2,3,4,5,6,7));
+				aPoint.setStartTime("06:00");
+				aPoint.setEndTime("23:00");
+				aPoint.setInformation("Phone : "+itr.getPhone());
+				
+				collectionPoints.add(aPoint);
+				totalcount++;
+			}
+		}
+		
+		if (searchSesultBean.getFoodScrapsPoints() != null){
+			Iterator<WedSunFoodWasteDepot> foodScrapsPoints = searchSesultBean.getFoodScrapsPoints().iterator();
+			while (foodScrapsPoints.hasNext()){
+				WedSunFoodWasteDepot itr = foodScrapsPoints.next();
+				CollectPoint aPoint = new CollectPoint();
+				aPoint.setDataSource("foodScrapsPoints");				
+				aPoint.setGarbageType(Arrays.asList("foodScrap"));
+				aPoint.setName(itr.getRegion()+"-"+itr.getBranch());
+				aPoint.setAddress(itr.getAddress());
+				aPoint.setLng(String.valueOf(itr.getLongitude()));
+				aPoint.setLat(String.valueOf(itr.getLatitude()));
+				aPoint.setWeekdays(Arrays.asList(3,7));
+				aPoint.setStartTime("18:00");
+				aPoint.setEndTime("21:00");
+				
+				collectionPoints.add(aPoint);
+				totalcount++;
+			}
+		}
+		
+		if (searchSesultBean.getDrugsPoints() != null){
+			Iterator<MedicationDisposalSite> drugsPoints = searchSesultBean.getDrugsPoints().iterator();
+			while (drugsPoints.hasNext()){
+				MedicationDisposalSite itr = drugsPoints.next();
+				CollectPoint aPoint = new CollectPoint();
+				aPoint.setDataSource("drugsPoints");				
+				aPoint.setGarbageType(Arrays.asList("drug"));
+				aPoint.setName(itr.getName());
+				aPoint.setAddress(itr.getAddress());
+				aPoint.setLng(String.valueOf(itr.getLongitude()));
+				aPoint.setLat(String.valueOf(itr.getLatitude()));
+				
+				final String phone = StringUtils.isEmpty(itr.getPhoneExtension()) ? itr.getPhone() : itr.getPhone()+"#"+itr.getPhoneExtension();			
+				aPoint.setInformation("Phone : "+phone);
+				
+				collectionPoints.add(aPoint);
+				totalcount++;
+			}
+		}
+		
+		if (searchSesultBean.getClothesPoints() != null){
+			Iterator<ClothesRecyclingBox> clothesPoints = searchSesultBean.getClothesPoints().iterator();
+			while (clothesPoints.hasNext()){
+				ClothesRecyclingBox itr = clothesPoints.next();
+				CollectPoint aPoint = new CollectPoint();
+				aPoint.setDataSource("clothesBox");				
+				aPoint.setGarbageType(Arrays.asList("clothes"));
+				aPoint.setName(itr.getOrganization());
+				aPoint.setAddress(itr.getAddress());
+				aPoint.setLng(String.valueOf(itr.getLongitude()));
+				aPoint.setLat(String.valueOf(itr.getLatitude()));
+				
+				collectionPoints.add(aPoint);
+				totalcount++;
+			}
+		}
+	}
 	
 	public String getQueryParameters() {
 		return queryParameters;
