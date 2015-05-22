@@ -1,5 +1,6 @@
 package org.trashacker.controller;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.trashacker.controller.CollectPointQueryResult.CollectPoint;
 import org.trashacker.service.SearchCollectPointService;
-import org.trashacker.service.SearchSesultBean;
+import org.trashacker.service.SearchResultBean;
 
 @RestController
 public class CollectPointQueryController {
@@ -24,7 +25,7 @@ public class CollectPointQueryController {
     		@RequestParam(value="lat", required=false) String lat, @RequestParam(value="lng", required=false) String lng, @RequestParam(value="square", required=false) String square,
     		@RequestParam(value="startTime", required=false) String startTime, @RequestParam(value="endTime", required=false) String endTime) {
     	
-    	SearchSesultBean searchResultBean = null;
+    	SearchResultBean searchResultBean = null;
     	if (!StringUtils.isEmpty(lat) && !StringUtils.isEmpty(lng)){
     		float latValue = Float.valueOf(lat);
     		float lngValue = Float.valueOf(lng);
@@ -34,7 +35,7 @@ public class CollectPointQueryController {
     		String[] start = startTime.split(":");
     		String[] end = endTime.split(":");
     		
-    		searchResultBean = searchCollectPointService.searchAllTypePointsByTime(Integer.valueOf(start[0]), Integer.valueOf(start[1]), Integer.valueOf(end[0]), Integer.valueOf(end[1]));
+    		searchResultBean = searchCollectPointService.searchAllTypePointsByTime(new Time(Integer.valueOf(start[0]), Integer.valueOf(start[1]),0), new Time(Integer.valueOf(end[0]), Integer.valueOf(end[1]),0));
     	}
     	
     	CollectPointQueryResult response = new CollectPointQueryResult(searchResultBean);
