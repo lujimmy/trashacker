@@ -37,7 +37,7 @@ ADD INDEX `lng_lat` (`longitude` ASC, `latitude` ASC);
 
 
 -- 臺北市週三、週日廚餘專用限時收受點
-CREATE TABLE `trashacker`.`wed_sun_fodd_waste_depot` (
+CREATE TABLE `trashacker`.`wed_sun_food_waste_depot` (
   `id` INT UNSIGNED NOT NULL COMMENT '_id',
   `region` CHAR(5) NULL COMMENT 'Region',
   `branch` CHAR(5) NULL COMMENT 'Branch',
@@ -47,7 +47,7 @@ CREATE TABLE `trashacker`.`wed_sun_fodd_waste_depot` (
   `latitude` DECIMAL(16,13) NULL COMMENT 'Lat',
   PRIMARY KEY (`id`));
 
-ALTER TABLE `trashacker`.`wed_sun_fodd_waste_depot`
+ALTER TABLE `trashacker`.`wed_sun_food_waste_depot`
 CHANGE COLUMN `longitude` `longitude` DECIMAL(16,13) NOT NULL ,
 CHANGE COLUMN `latitude` `latitude` DECIMAL(16,13) NOT NULL ,
 ADD INDEX `lng_lat` (`longitude` ASC, `latitude` ASC);
@@ -100,7 +100,7 @@ CREATE TABLE `trashacker`.`garbage_classification_instruction` (
   `collectAtThu` BIT(1) NOT NULL,
   `collectAtFri` BIT(1) NOT NULL,
   `collectAtSat` BIT(1) NOT NULL,
-  `colectAtSun` BIT(1) NOT NULL);
+  `collectAtSun` BIT(1) NOT NULL);
 
 ALTER TABLE `trashacker`.`garbage_classification_instruction`
 ADD INDEX `keyword` (`keyword` ASC);
