@@ -62,7 +62,6 @@ CREATE TABLE IF NOT EXISTS`trashacker`.`medication_disposal_site` (
   `name` VARCHAR(45) NULL COMMENT 'name',
   `address` VARCHAR(100) NULL COMMENT 'address_for_display',
   `phone` VARCHAR(45) NULL COMMENT 'telephone',
-  `phone_extension` VARCHAR(10) NULL COMMENT 'may contains in telephone',
   `longitude` DECIMAL(16,13) NULL,
   `latitude` DECIMAL(16,13) NULL,
   PRIMARY KEY (`id`));

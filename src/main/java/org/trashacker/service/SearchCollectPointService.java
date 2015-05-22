@@ -1,5 +1,6 @@
 package org.trashacker.service;
 
+import java.sql.Time;
 import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class SearchCollectPointService {
 	@Autowired
 	GarbageTruckRoadmapRepo garbageTruckRoadmapRepo;
 
-	public SearchSesultBean searchAllTypePointsByLocation(float maxLat, float minLat, float maxLng, float minLng){
-		SearchSesultBean result = new SearchSesultBean();
+	public SearchResultBean searchAllTypePointsByLocation(float maxLat, float minLat, float maxLng, float minLng){
+		SearchResultBean result = new SearchResultBean();
 		
 		result.setClothesPoints(clothesRecyclingBoxRepo.getByLocationRange(maxLat, minLat, maxLng, minLng));
 		result.setDrugsPoints(medicationDisposalSiteRepo.getByLocationRange(maxLat, minLat, maxLng, minLng));
@@ -41,12 +42,12 @@ public class SearchCollectPointService {
 		return result;
 	}
 	
-	public SearchSesultBean searchAllTypePointsByTime(int startHour, int startmin, int endHour, int endMin){
-		SearchSesultBean result = new SearchSesultBean();
+	public SearchResultBean searchAllTypePointsByTime(Time arrive, Time leave){
+		SearchResultBean result = new SearchResultBean();
 		
-		result.setGarbageCar(garbageTruckRoadmapRepo.getByArriveTimeRange(startHour, startmin, endHour, endMin));
+		result.setGarbageCar(garbageTruckRoadmapRepo.getByTimeRange(arrive, leave));
 		
-		GregorianCalendar queryStartTime = new GregorianCalendar(0,0,0,startHour,startmin);
+		GregorianCalendar queryStartTime = new GregorianCalendar(0,0,0,arrive.toLocalTime().getHour(),leave.toLocalTime().getHour());
 
 		if (queryStartTime.after(PointType.FIXED_POINT.getStartTime()) && queryStartTime.before(PointType.FIXED_POINT.getEndTime())){
 			result.setFixedPoints(recyclingFoodWasteDepotRepo.findAll());
