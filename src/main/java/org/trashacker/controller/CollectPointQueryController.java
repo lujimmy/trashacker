@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.trashacker.controller.CollectPointQueryResult.CollectPoint;
+import org.trashacker.service.SearchCollectPointService;
 
 @RestController
 public class CollectPointQueryController {
+	
+	@Autowired
+	SearchCollectPointService searchCollectPointService;
 
     @RequestMapping("/collectPoint/query")
     public CollectPointQueryResult greeting(@RequestParam(value="garbageType", defaultValue="all") String garbageType, 
