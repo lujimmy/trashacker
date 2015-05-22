@@ -7,6 +7,6 @@ import org.trashacker.domain.MedicationDisposalSite;
  * @since 15/5/22
  */
 public interface MedicationDisposalSiteRepoCustom {
-	
-	Iterable<MedicationDisposalSite> getByLocationRange(float maxLat, float minLat, float maxLng, float minLng);
+
+    Iterable<MedicationDisposalSite> getByLocationRange(float maxLat, float minLat, float maxLng, float minLng);
 }

@@ -10,10 +10,8 @@ import org.trashacker.domain.MedicationDisposalSite;
 @Repository
 public class MedicationDisposalSiteRepoImpl implements MedicationDisposalSiteRepoCustom {
 
-	@Override
-	public Iterable<MedicationDisposalSite> getByLocationRange(float maxLat,
-			float minLat, float maxLng, float minLng) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Iterable<MedicationDisposalSite> getByLocationRange(float maxLat, float minLat, float maxLng, float minLng) {
+        return null;
+    }
 }

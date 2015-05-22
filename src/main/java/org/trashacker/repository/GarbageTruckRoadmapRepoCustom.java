@@ -7,8 +7,8 @@ import org.trashacker.domain.GarbageTruckRoadmap;
  * @since 15/5/22
  */
 public interface GarbageTruckRoadmapRepoCustom {
-	
-	Iterable<GarbageTruckRoadmap> getByLocationRange(float maxLat, float minLat, float maxLng, float minLng);
-	
-	Iterable<GarbageTruckRoadmap> getByArriveTimeRange(int startHour, int startmin, int endHour, int endMin);
+
+    Iterable<GarbageTruckRoadmap> getByLocationRange(float maxLat, float minLat, float maxLng, float minLng);
+
+    Iterable<GarbageTruckRoadmap> getByArriveTimeRange(int startHour, int startMin, int endHour, int endMin);
 }
