@@ -1,8 +1,10 @@
 ---
 applications:
 - name: trashacker
-  memory: 512M
+  memory: 2048M
   instances: 1
   host: trashacker
   path: build/libs/trashacker.jar
+#  env:
+#    SPRING_PROFILES_ACTIVE: h2,cloud
 
