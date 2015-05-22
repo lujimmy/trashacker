@@ -1,8 +1,877 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Hello World!</title>
+  <title>OpenData x 去去垃圾走</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  <script src="js/gmaps.js"></script>
+  <style type="text/css">
+ 
+    body{
+      margin:0;
+      padding: 0;
+      font-family: "Arial", "華康黑體", "微軟正黑體", "黑體", "黑体";
+      background: #f3f3f3;
+    }
+    .wrapper{
+      max-width: 940px;
+      height: auto;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      padding: 0 1px 1px 1px;
+    }
+    #header{
+      height: 60px;
+      background: #1c1d1d;
+      border: 5px;
+      border-bottom: solid 5px #8bc658;
+      width: 100%;
+    }
+    .headerTitle{
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff; 
+      line-height: 60px;
+      padding-left: 10px;
+    }
+    #container{
+      width: 100%;
+    }
+    .field{
+      width: 100%;
+      line-height: 38px;
+      background: aquamarine;
+    }
+    .field label{
+      line-height: 32px;
+      padding: 0 20px;
+      width: 30%;
+    }
+ 
+    .inputBox{
+      margin:0 auto;
+      padding-left: 10px;
+    }
+    .submitBtn{
+ 
+    }
+    #operationBox{
+      position: relative;
+      width: 100%;
+      margin: 20px auto 0 auto;;
+      display: inline-block;
+    }
+    #contentBox{
+      padding-bottom: 20px;
+    }
+    #mapBox{ 
+      width: 71%;
+      background: #fff;
+      padding: 15px;
+      box-shadow: 0 0 1px #999;
+      border-radius: 2px;
+      float: left;
+ 
+    }
+    #map {
+      max-width: 100%;
+      height: 400px;
+    }
+ 
+ 
+    #result{
+      width: 21%;
+      float: right;
+      box-shadow: 0 0 1px #999;
+      padding: 10px;
+      background: #fff;
+    }
+ 
+    ul{
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    #resultList{
+ 
+    }
+ 
+    #resultList li{
+      font-size: 12px;
+      /* height: 30px; */
+      -webkit-transition: all .5s ease-in-out;
+      -moz-transition: all .5s ease-in-out;
+      -o-transition: all .5s ease-in-out;
+      transition: all .5s ease-in-out;
+      /* background: gold; */
+      padding: 10px 0;
+      cursor: pointer;
+      border-bottom: 1px solid #e2e2e2;
+      margin-left: 15px;
+    }
+ 
+    #resultList li:hover:before{
+      content: '';
+      padding-left: 0;
+      /* height: 10px; */
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 5px solid #8bc658;
+      display: inline-block;
+      -webkit-transition: all .5s ease-in-out;
+      -moz-transition: all .5s ease-in-out;
+      -o-transition: all .5s ease-in-out;
+      transition: all .5s ease-in-out;
+      margin-left: -5px;
+    }
+ 
+    .resultTitle{
+      font-weight: bold;
+      font-size: 14px; 
+    }
+    #resultList li.resultTitle:hover:before{
+   
+      border: none;
+      margin-left: 0px;
+
+ 
+    }
+ 
+ 
+    #filterIcon{
+      line-height: 23px;
+      cursor: pointer;
+      padding-left: 10px;
+      background: #999E9E;
+      color: #fff;
+      width: 60px;
+      border-radius: 3px;
+      margin: 0 0 10px 10px;
+      font-size: 14px;
+    }
+    #filterIcon:hover{}
+    #filterIcon:active{}
+    #filterIcon:before{
+      content: '';
+      background: url("filter.png");
+      width: 10px;
+      height: 10px;
+      background-size: contain;
+      display: inline-block;
+      margin-right: 5px;
+    }
+    #filterBox{
+      width: 150px;
+      height: 430px;
+      overflow: hidden;
+      background: rgba(0, 0, 0,0.7);
+      position: absolute;
+      z-index: 1;
+      color: #fff;
+      left: -150px;
+        -webkit-transition: all .5s ease-in-out;
+      -moz-transition: all .5s ease-in-out;
+      -o-transition: all .5s ease-in-out;
+      transition: all .5s ease-in-out;
+    }
+    #filterBox.openFilterPanel{
+      -webkit-transition: all .5s ease-in-out;
+      -moz-transition: all .5s ease-in-out;
+      -o-transition: all .5s ease-in-out;
+      transition: all .5s ease-in-out;
+      left: 0;
+    }
+ 
+    #filterBox h6{
+      font-size: 16px;
+      margin: 15px;
+    }
+    #filterPanel{
+      float: left;
+      max-width: 20%;
+      height: 100%;
+    }
+    #filterPanel ul{
+      list-style: none;
+      padding: 0 0 0 20px;
+      margin: 0;    
+    }
+    #filterPanel ul li{
+      padding: 5px 0;
+      cursor: pointer;
+      min-width: 150px;
+      height: 20px;
+      line-height: 20px;
+      padding-left: 20px;
+      font-size: 13px;
+    }
+    .selectType{
+padding: 0 0 10px 10px;
+    }
+    #typeList li{
+      padding: 5px 0;
+      cursor: pointer;
+      height: 20px;
+      line-height: 20px;
+      font-size: 13px;
+      display: inline-block;
+      margin-right: 20px;
+    }
+    #filterPanel ul li:before,#typeList li:before{
+      content: '';
+      -webkit-transition: background .3s;
+      transition: background .3s;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-top: -5px;
+      margin-right: 10px;
+      border-radius: 2px;
+      border: 1px solid #C4C2D8;
+    }
+    
+ 
+ 
+ 
+   /* #filterPanel ul .filter-general:hover{background:red;}
+   */
+    #filterPanel ul li.filter-general:before{border-color:#88c73d;}
+    .filter-general.filled:before{background: rgba(136,199,61,.7);}/*
+    .filter-general:hover:before{background:rgba(185, 223, 139, 0.7);}*/
+    #filterPanel ul li.filter-recylce:before{border-color:#d89e8f;}
+    .filter-recylce.filled:before{background: rgba(216,158,143,.7);}/*
+    .filter-recylce:hover:before{background:rgba(237, 212, 205, 0.7);}*/
+    #filterPanel ul li.filter-clothes:before{border-color:#831846;}
+    .filter-clothes.filled:before{background: rgba(131,24,70,.7);}/*
+    .filter-clothes:hover:before{background:rgba(190, 138, 161, 0.7);}*/
+    #filterPanel ul li.filter-drug:before{border-color:#42b1ca;}
+    .filter-drug.filled:before{background: rgba(66,177,202,.7);}/*
+    .filter-drug:hover:before{background:rgba(171, 224, 236, 0.7);}*/      
+ 
+    #filterPanel ul li.filter-foodScrap:before{border-color:#7958a9;}
+    .filter-foodScrap.filled:before{background: rgba(121,88,169,.7);}/*
+    .filter-foodScrap:hover:before{background:rgba(181, 163, 208, 0.7);}*/    
+ 
+    .generalIcon,.recycleIcon,.clothesIcon,.drugIcon,.foodScrapIcon{
+      width: 15px;
+      height: 15px;
+      margin-right: 2px;
+      border-radius: 3px;
+      float: left;
+      display: inline-block;
+    }
+    .generalIcon{background: rgba(136,199,61,.7);}
+    .recycleIcon{background: rgba(216,158,143,.7);}
+    .clothesIcon{background: rgba(131,24,70,.7);}
+    .drugIcon{background: rgba(66,177,202,.7);}
+    .foodScrapIcon{background: rgba(121,88,169,.7);}
+
+ 
+    #typeList .filled:before{background: #8bc658;}
+    #typeList li:before{border: 1px solid #71A642;}
+ 
+    .submitBtn{
+      width: 120px;
+      border-radius: 5px;
+      height: 32px;
+      color: #fff;
+      background: #3b5998;
+      line-height: 32px;
+      text-align: center;
+      margin: 20px;
+      cursor: pointer;
+      transition:background 0.5s;
+      position: absolute;
+      bottom:20px;
+    }
+    .submitBtn:hover{background: #7D95C8;}
+    .submitBtn:active{background: #2152BA;}
+    #dataList{
+      background: burlywood;
+      padding: 10px;
+      margin: 10px 0 0 0;
+    }
+    .row{
+      min-height: 50px;
+      background: whitesmoke;
+    }
+    .rowContent{
+      line-height: 22px;
+      font-size: 13px;
+    }
+ 
+    #footer{
+      padding: 2% 0 0 2%;;
+      border-top: 1px solid #dadee2;
+    }
+    .footerTitle{
+      line-height: 32px;
+      font-size: 23px;
+      padding-bottom: 15px;
+    }
+    .footerGrid{
+      background: aquamarine;
+      max-width: 30%;
+      float: left;
+      margin-right: 2.5%;
+      margin-bottom: 15px;
+    }
+    .thumbnail{
+      width: 100%;
+      height: 100px;
+      background: rgb(231, 231, 231);;
+    }
+    .gridContentBox{
+      padding: 10px;
+    }
+    .gridTitle{
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .gridContent{
+      padding: 10px 0 0 0;
+      color: #04203e;
+    }
+ 
+      #panelLeft{
+        width: 78%;
+        float: left;
+        min-height: 135px;
+        padding-left: 10px;
+      }
+      #panelRight{
+        width: 18%;
+        float: left;
+        height: 135px;
+      }
+      .fieldBox{
+        display: none;
+      }
+      #searchByAddress{display: block;}
+      input[type="text"]{
+        width: 80%;
+        height: 38px;
+        font-size: 14px;
+        color: #535353;
+        outline: 0;
+        text-indent: 8px;
+        background: #fff;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-transition: box-shadow,border .5s;
+        -moz-transition: box-shadow,border .5s;
+        -o-transition: box-shadow,border .5s;
+        transition: box-shadow,border .5s;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border: none;
+        float: left;
+      }
+      .icon-search{
+        background: #8bc658;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        width: 13%;
+        height: 40px;
+        float: left;
+        font-size: 15px;
+        line-height: 40px;
+        text-align: center;
+        color: #fff;
+        position: relative;
+        cursor: pointer;
+      }
+      .icon-search i{
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 10px solid #8bc658;
+        display: inline-block;
+        position: absolute;
+        left: -10px;
+        top: 10px;
+      }
+      .icon-search:hover i{
+          border-right: 10px solid #8BB06B;
+      }
+      .icon-search:hover{background:#8BB06B;}
+ 
+      .icon-search:active i{
+        border-right: 10px solid #58991F;
+      }
+      .icon-search:active{background:#58991F;}
+ 
+ 
+      #searchByTime .icon-search{
+        height: 32px;
+        line-height: 32px;
+        border-radius: 3px;
+        margin: 2px 0 0 20px;
+        width: 120px;
+      }
+
+      .selectBox{float: left;  padding-left: 10px;}
+
+      .timeField{
+        color: red;
+        text-align: right;
+        line-height: 15px;
+        height: 15px
+      }
+ 
+      @media only screen and (max-width: 1260px){
+        .thumbnail{height: 180px;}
+      }
+ 
+ 
+    @media only screen and (max-width: 880px){
+      .footerGrid{
+        max-width: 48%;
+        margin-right: 2%;
+      }
+      .thumbnail{height:200px;}
+    }
+ 
+ 
+    @media only screen and (max-width: 660px){
+      #header{
+        height: 50px;
+        background-position: top;
+      }
+      .headerTitle{
+        top: 0;
+        font-size: 20px;
+        line-height: 50px;
+        left: 10%;
+      }
+      .footerGrid{
+        max-width: 96%;
+        margin-right: 2%;
+      }
+      #filterPanel ul li{padding-left: 5px;}
+      #mapBox{
+        width: 96%;
+        padding: 2%;
+        box-shadow: none;
+        border-radius: 0;
+        margin: 0 auto;
+      }
+      #panelLeft{
+        width: 96%;
+        margin: 0 auto;
+        padding: 0 2%;     
+      }
+ 
+      #panelRight{
+        width: 96%%;
+        margin: 0 auto;
+        height: auto;
+      }
+
+      .submitBtn{
+        width: 80%;
+        border-radius: 2px;
+        height: 32px;
+        color: #fff;
+        background: #3b5998;
+        line-height: 32px;
+        text-align: center;
+        margin: 20px 10%;
+        cursor: pointer;
+        transition: background 0.5s;
+        position: relative;
+          bottom: inherit;
+      }
+      #result {
+        width: 90%;
+        float: right;
+        padding: 10px 5%;
+        background: #fff;
+        margin: 20px 0 0 0;
+      }
+      .icon-search{
+        margin:10px 0;
+        width: 100%;
+        margin: 20px 0;
+        border-radius: 3px;
+      }
+      .icon-search i{display: none;}
+      input[type="text"]{
+        width: 100%;
+        border-radius:3px;
+        box-shadow: 0 0 1px #999 inset;
+      }
+
+      #searchByTime .icon-search{
+margin: 20px 0;
+  height: 40px;
+  width: 96%;
+  margin-left: 10px;
+  line-height: 40px;
+      }
+    }
+    select.custom-dropdown {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      border: 0 !important;
+      color: #fff;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      font-size: 14px;
+      text-indent: 10px;
+      height: 30px;
+      line-height: 30px;
+      margin: 0 20px 0 10px;
+      width: 120px;
+      cursor: pointer;
+      background: #4879A9  url('drop-down-arrow.png') no-repeat right center;
+      background-size: 40px 37px;
+    }
+  </style>
+ 
 </head>
 <body>
-    <p>Hello World! We are Trashacker!</p>
+ 
+    <div id="container">
+      <div id="header"> 
+        <div class="wrapper">
+          <div class="headerTitle">OpenData x 垃圾去去走</div>
+        </div>
+      </div>
+ 
+      <div id="operationBox">
+        <div class="wrapper">
+          <div class="field"> 
+            <div id="panelLeft">
+              <div class="">輸入地址查詢附近清運資訊</div>
+              <div class="selectType">  
+                <ul id="typeList">
+                  <li class="filled" value="searchByAddress">地址查詢</li>
+                  <li value="searchByTime">時間查詢</li>
+                  <li value="searchBykeyword">垃圾分類</li>
+                </ul>        
+              </div>
+              <div class="fieldBox" id="searchByAddress">
+ 
+                <div class="inputBox">
+                  <input type="text" name="address" placeholder="Address">
+                  <div class="icon-search submit"><i></i>查詢</div>
+                </div>
+              </div>
+              <div class="fieldBox" id="searchByTime">
+                <div class="selectBox">
+                起<select name="startTime" class="custom-dropdown"></select>
+                迄<select name="endTime" class="custom-dropdown"></select>
+              </div>
+              <div class="icon-search submit">查詢</div>
+              </div>
+              <div  class="fieldBox" id="searchBykeyword">
+                <div class="inputBox">
+                  <input type="text" name="address" placeholder="keyword">
+                  <div class="icon-search submit"><i></i>查詢</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+ 
+      <div id="contentBox">
+        <div class="wrapper">
+          
+         <div id="filterBox">
+            <h6>FILTER BY TYPE</h6>
+            <div id="filterPanel">
+              <ul>
+                <li class="filter-general">general</li>
+                <li class="filter-recylce">recycle</li>
+                <li class="filter-clothes">clothes</li>
+                <li class="filter-drug">medicine</li>
+                <li class="filter-foodScrap">kitchen</li>
+              </ul>
+            </div>
+          </div>
+          <div id="mapBox">
+            <div id="filterIcon"><i></i>Filter</div>  
+            <div id="map"></div>
+          </div>
+          <div id="result">
+            <ul id="resultList">
+              <li class="resultTitle">trashCars</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+ 
+ 
+ 
+ 
+<!--
+
+    <div id="footer">
+     <div class="footerTitle">暸解更多垃圾資訊</div>
+      <div class="footerGrid">
+        <div class="thumbnail"></div>
+        <div class="gridContentBox">
+          <div class="gridTitle">Internet.org innovation lab</div>
+          <div class="gridContent">Test on a 2G network to know how your app performs in lower bandwidth markets.</div>
+        </div>
+      </div>
+      <div class="footerGrid">
+        <div class="thumbnail"></div>
+        <div class="gridContentBox">
+          <div class="gridTitle">Internet.org innovation lab</div>
+          <div class="gridContent">Test on a 2G network to know how your app performs in lower bandwidth markets.</div>
+        </div>
+      </div>
+      <div class="footerGrid">
+        <div class="thumbnail"></div>
+        <div class="gridContentBox">
+          <div class="gridTitle">Internet.org innovation lab</div>
+          <div class="gridContent">Test on a 2G network to know how your app performs in lower bandwidth markets.</div>
+        </div>
+      </div>
+      <div class="footerGrid">
+        <div class="thumbnail"></div>
+        <div class="gridContentBox">
+          <div class="gridTitle">Internet.org innovation lab</div>
+          <div class="gridContent">Test on a 2G network to know how your app performs in lower bandwidth markets.</div>
+        </div>
+      </div>
+    </div>
+-->
+  </div>
+  <script type="text/template" id="row">
+    <%- name %>/<%- address %><br/> 
+    <div class='timeField'>
+      <% _.each(garbageType, function(i) { %> 
+        <span class="<%= i %>Icon"></span>  
+      <% }); %>
+      <% if(arriveTime!==''){ %> 
+        <%= arriveTime %> 
+      <% }else if(startTime!==''){ %> 
+        <%= startTime %>~<%= endTime %> 
+      <% } %> 
+    </div>
+  </script>
 </body>
-</html>
+  <script src="js/underscore-min.js"></script>
+  <script src="js/backbone-min.js"></script>
+  <script type="text/javascript">
+    var map;
+    $(function() {
+      var app = app || {};
+
+
+      map = new GMaps({
+        el: '#map',
+        lat: 25.0336048,
+        lng: 121.5654335
+      });
+ 
+      //init select
+      for(var i=8; i<24;i++){
+        $.each(["00","30"],function(index,value){
+          var str=i+':'+value;
+          $.each(["startTime","endTime"],function(n,m){
+            $("select[name="+m+"]").append('<option value="'+str+'">'+str+'</option>');
+          });
+        });
+      }
+
+ 
+      $("#filterPanel ul li").click(function(){
+        $(this).toggleClass("filled");
+      });
+      $("#filterIcon").click(function(){
+        $("#filterBox").toggleClass("openFilterPanel");
+      });
+ 
+      $("#typeList li").click(function(){
+        $('#typeList .filled').removeClass('filled');
+        $(".fieldBox").css("display","none");
+        $("#"+$(this).attr("value")).css("display","block");
+        console.log("$(this).val()="+$(this).attr("value")) ;
+        $(this).addClass('filled'); 
+      });
+ 
+      $(".submit").click(function(){
+        var address=$('input[name="address"]').val();
+        /*
+        $.ajax({
+          url: URLs,
+          data: $('#sentToBack').serialize(),
+          type:"POST",
+          dataType:'text',
+          success: function(msg){
+              alert(msg);
+          },
+         error:function(xhr, ajaxOptions, thrownError){
+            alert(xhr.status);
+            alert(thrownError);
+         }
+        });*/
+        var result={
+          "queryParameters":"garbageType=all&lat=121.523&lng=25.0880&square=2",
+          "totalcount" : 6,
+          "collectionPoints":[
+            {
+              "dataSource":"trashCars",
+              "garbageType" :["general","recycle","foodScrap"],
+              "carNumber" : "101-037",
+              "address" : "臺北市士林區基河路100號對面",
+              "lng" : "121.523852348327640",
+              "lat" : "25.088096100187595",
+              "weekdays" : [1,2,4,5,6],
+              "arriveTime" : "17:15"
+            },
+            {
+              "dataSource":"fixedPoints",
+              "garbageType" :["general","recycle","foodScrap"],
+              "name" : "天母分隊",
+              "address" : "臺北市士林區中山北路六段763巷臨2號對面",
+              "lng" : "121.52781",
+              "lat" : "25.1157879999999",
+              "weekdays" : [1,2,3,4,5,6,7],
+              "startTime" : "06:00",
+              "endTime" : "23:00",
+              "information" : "連絡電話 28742048"
+            },
+            {
+              "dataSource":"foodScrapsPoints",
+              "garbageType" :["foodScrap"],
+              "name" : "中山區-民二",
+              "address" : "臺北市中山區錦州街臨306號",
+              "lng" : "121.5372058",
+              "lat" : "25.0602607",
+              "weekdays" : [3,7],
+              "startTime" : "18:00",
+              "endTime" : "21:00"
+            },
+            {
+              "dataSource":"drugsPoints",
+              "garbageType" :["drug"],
+              "name" : "臺北市立聯合醫院中興院區",
+              "address" : "臺北市大同區鄭州路145號",
+              "lng" : "121.5372058",
+              "lat" : "25.0602607",
+              "information" : "連絡電話 02-2552-3234"
+            },
+            {
+              "dataSource":"clothesBox",
+              "garbageType" :["clothes"],
+              "name" : "自閉症家長協會",
+              "address" : "文山區景福街223巷口(學校圍牆邊)",
+              "lng" : "121.5372058",
+              "lat" : "25.0602607"
+            }
+          ]
+        };
+ 
+        console.log(JSON.stringify(result.collectionPoints));
+ 
+        if(result.totalcount>0){
+ 
+          resultCollection=new app.dataMain(result.collectionPoints);
+ 
+        }else{
+          //display no result message
+        }
+        
+ 
+ 
+ 
+      });
+ 
+ 
+ 
+        app.dataModel = Backbone.Model.extend({
+          defaults:{
+            "dataSource":"",
+            "garbageType" :[],
+            "name" : "",
+            "address" : "",
+            "lng" : "",
+            "lat" : "",
+            "weekdays" : [],
+            "startTime" : "",
+            "endTime" : "",
+            "arriveTime":"",
+            "information":""
+          },
+          initialize:function(){
+            console.log("init mode...");
+ 
+            switch(this.get("dataSource")){
+              case 'trashCars':
+                this.set("information","週一、二、四、五、六 : 一般垃圾與廚餘, 週一、五： 平面類：紙類,舊衣類,乾淨塑膠袋, 週二、四、六： 立體類︰乾淨保麗龍, 一般類（瓶罐、容器、小家電等）");
+                break;
+              case 'foodScrapsPoints':
+                this.set("information","週三、日18時至21時, 廚餘專用限時收受點");
+                break;
+            }
+          }
+        });
+        app.dataCollection= Backbone.Collection.extend({
+          model:app.dataModel
+        });
+        app.dataView= Backbone.View.extend({
+          tagName:"li",
+          template:_.template($("#row").html()),
+          events:{
+            "click":"setCenter"
+          },
+          initialize:function(){
+            console.log("init view...."+this.model.get("lat"));
+ 
+            map.addMarker({
+              lat: Number(this.model.get("lat")),
+              lng: Number(this.model.get("lng")),
+              title: 'Lima',
+         /*     click: function(e) {
+                alert('You clicked in this marker');
+              },*/
+              infoWindow: {
+                content: '<div class="" style="background:grey;color:#fff;posaition"><p>Information:<br/>'+this.model.get("information")+'</p></div>'
+              }
+            });
+          },
+          render:function(){
+            this.$el.html(this.template(this.model.toJSON()));
+           return this;
+          },
+          setCenter:function(){
+            map.setCenter(Number(this.model.get("lat")), Number(this.model.get("lng")));
+            $('html, body').animate({
+              scrollTop: $("#mapBox").offset().top + 'px'
+            }, 'fast');
+          }
+        });
+        app.dataMain = Backbone.View.extend({
+          el:"#resultList",
+          initialize: function(models) {
+            console.log("main view ..."+JSON.stringify(models));
+ 
+            this.collection= new app.dataCollection(models);
+            this.render();
+          },
+          render: function() {
+            this.collection.each(function(model) {
+              this.renderItem(model);
+            }, this);
+          },
+          renderItem: function(item) {
+            var dataView = new app.dataView({
+              model: item
+            });
+            this.$el.append(dataView.render().el);
+          },
+          filterType:function(){
+            
+          }
+        });
+    });
+  </script>
