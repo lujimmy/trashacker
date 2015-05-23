@@ -260,8 +260,11 @@
     .filter-drug.filled:before{background: rgba(66,177,202,.7);}   
     #filterPanel ul li.filter-foodScrap:before{border-color:#7958a9;}
     .filter-foodScrap.filled:before{background: rgba(121,88,169,.7);}   
+    .
+    #filterPanel ul li.filter-trashBox:before{border-color:#259a80;}
+    .filter-trashBox.filled:before{background: rgba(37,154,128,.7);}  
  
-    .generalIcon,.recycleIcon,.clothesIcon,.drugIcon,.foodScrapIcon{
+    .generalIcon,.recycleIcon,.clothesIcon,.drugIcon,.foodScrapIcon,.trashBoxIcon{
       width: 10px;
       height: 10px;
       margin: 2px 2px 0 0;
@@ -274,6 +277,7 @@
     .clothesIcon{background: rgba(131,24,70,.7);}
     .drugIcon{background: rgba(66,177,202,.7);}
     .foodScrapIcon{background: rgba(121,88,169,.7);}
+    .trashBoxIcon{background: rgba(37,154,128,.7)}
 
  
     #typeList .filled:before{background: #8bc658;}
@@ -606,6 +610,7 @@
                 <li value="clothes" class="filter-clothes">舊衣</li>
                 <li value="drug" class="filter-drug">藥物</li>
                 <li value="foodScrap" class="filter-foodScrap">廚餘</li>
+                <li value="trashBox" class="filter-trashBox">垃圾桶</li>
               </ul>
             </div>
           </div>
@@ -714,8 +719,10 @@
         },
         switchFilterStatus:function(e){
            $(e.target).toggleClass("filled");
+           if(app.searchResult.size()!==0){
+                       app.searchResult.filterType();
+           }
 
-           app.searchResult.filterType();
         },
         searchByAddress:function(){
           var address=$('input[name="address"]').val();
@@ -740,7 +747,7 @@
 
               
               $.ajax({
-                url: 'http://10.0.9.44:8080/collectPoint/query?garbageType=all&lat='+Number(position[0])+'&lng='+Number(position[1])+'&square=0.005'+timeStr,
+                url: '/collectPoint/query?garbageType=all&lat='+Number(position[0])+'&lng='+Number(position[1])+'&square=0.005'+timeStr,
                 type:"GET",
                 contentType: 'application/json',
                // dataType: 'jsonp',
@@ -776,7 +783,7 @@
 
 
           $.ajax({
-              url: 'http://10.0.9.44:8080/trash/classification?q='+keyword,
+              url: '/trash/classification?q='+keyword,
               type:"GET",
               contentType: 'application/json',
               dataType:'json',
@@ -785,7 +792,7 @@
                 $("#keywordResult").empty();
                 if(res.count!==0){
                    $("#keywordResult").fadeIn();
-                   console.log("@@@@@"+res.results);
+             
 
                    $.each(res.result.results,function(index,object){
                     $.each(["垃圾項目","關鍵字","處理說明","分類大類別","分類子類別","回收時間"],function(i,v){
@@ -916,12 +923,13 @@
 
           var selectedType=[];
 
-          $("#filterPanel .filled").each(function(i,v){
+           $("#filterPanel .filled").each(function(i,v){
             selectedType.push($(this).attr("value"));
           });
           map.removeMarkers();
           var filterResult=this.collection.filterByType(selectedType);
-          this.render(new app.dataCollection(filterResult));
+          this.render(new app.dataCollection(filterResult));           
+          
 
         }
       });
