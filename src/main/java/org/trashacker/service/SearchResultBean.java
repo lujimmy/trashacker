@@ -3,6 +3,7 @@ package org.trashacker.service;
 import org.trashacker.domain.ClothesRecyclingBox;
 import org.trashacker.domain.GarbageTruckRoadmap;
 import org.trashacker.domain.MedicationDisposalSite;
+import org.trashacker.domain.PedestrianTrashBox;
 import org.trashacker.domain.RecyclingFoodWasteDepot;
 import org.trashacker.domain.WedSunFoodWasteDepot;
 
@@ -13,7 +14,14 @@ public class SearchResultBean {
 	private Iterable<RecyclingFoodWasteDepot> fixedPoints;
 	private Iterable<WedSunFoodWasteDepot> foodScrapsPoints;
 	private Iterable<GarbageTruckRoadmap> garbageCar;
+	private Iterable<PedestrianTrashBox> trashBoxs;
 	
+	public Iterable<PedestrianTrashBox> getTrashBoxs() {
+		return trashBoxs;
+	}
+	public void setTrashBoxs(Iterable<PedestrianTrashBox> trashBoxs) {
+		this.trashBoxs = trashBoxs;
+	}
 	public Iterable<ClothesRecyclingBox> getClothesPoints() {
 		return clothesPoints;
 	}
