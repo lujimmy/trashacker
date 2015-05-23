@@ -257,9 +257,9 @@
     .filter-foodScrap:hover:before{background:rgba(181, 163, 208, 0.7);}*/    
  
     .generalIcon,.recycleIcon,.clothesIcon,.drugIcon,.foodScrapIcon{
-      width: 15px;
-      height: 15px;
-      margin-right: 2px;
+      width: 10px;
+      height: 10px;
+      margin: 2px 2px 0 0;
       border-radius: 3px;
       float: left;
       display: inline-block;
@@ -772,7 +772,7 @@
         },
         searchByAddress:function(){
           var address=$('input[name="address"]').val();
-
+          var position;
 
           var geocoder = new google.maps.Geocoder();
           geocoder.geocode({
@@ -781,92 +781,37 @@
 
             if (status == google.maps.GeocoderStatus.OK) {
 
-              var position = results[0].geometry.location.toString().replace('(', '').replace(')', '').split(',');
+              position = results[0].geometry.location.toString().replace('(', '').replace(')', '').split(',');
 
               console.log("map"+position);
               map.setCenter(Number(position[0]), Number(position[1]));
 
+              
+              $.ajax({
+                url: 'http:localhost:8080/collectPoint/query?garbageType=all&lat='+Number(position[0])+'&lng='+Number(position[1])+'&square=0.2',
+                type:"POST",
+                contentType: 'application/json',
+               // dataType: 'jsonp',
+                success: function(result){
+
+                  if(result.totalcount>0){
+
+                    app.searchResult=new app.dataMain(result.collectionPoints);
+
+                  }else{
+                    //display no result message
+                  }
+                },
+               error:function(xhr, ajaxOptions, thrownError){
+                  alert(xhr.status);
+                  alert(thrownError);
+               }
+              });
+
+
             } else {}
           });
 
-          /*
-          $.ajax({
-            url: URLs,
-            data: $('#sentToBack').serialize(),
-            type:"POST",
-            dataType:'text',
-            success: function(msg){
-                alert(msg);
-            },
-           error:function(xhr, ajaxOptions, thrownError){
-              alert(xhr.status);
-              alert(thrownError);
-           }
-          });*/
-          var result={
-            "queryParameters":"garbageType=all&lat=121.523&lng=25.0880&square=2",
-            "totalcount" : 6,
-            "collectionPoints":[
-              {
-                "dataSource":"trashCars",
-                "garbageType" :["general","recycle","foodScrap"],
-                "carNumber" : "101-037",
-                "address" : "臺北市士林區基河路100號對面",
-                "lng" : "121.523852348327640",
-                "lat" : "25.088096100187595",
-                "weekdays" : [1,2,4,5,6],
-                "arriveTime" : "17:15"
-              },
-              {
-                "dataSource":"fixedPoints",
-                "garbageType" :["general","recycle","foodScrap"],
-                "name" : "天母分隊",
-                "address" : "臺北市士林區中山北路六段763巷臨2號對面",
-                "lng" : "121.52781",
-                "lat" : "25.1157879999999",
-                "weekdays" : [1,2,3,4,5,6,7],
-                "startTime" : "06:00",
-                "endTime" : "23:00",
-                "information" : "連絡電話 28742048"
-              },
-              {
-                "dataSource":"foodScrapsPoints",
-                "garbageType" :["foodScrap"],
-                "name" : "中山區-民二",
-                "address" : "臺北市中山區錦州街臨306號",
-                "lng" : "121.5372058",
-                "lat" : "25.0602607",
-                "weekdays" : [3,7],
-                "startTime" : "18:00",
-                "endTime" : "21:00"
-              },
-              {
-                "dataSource":"drugsPoints",
-                "garbageType" :["drug"],
-                "name" : "臺北市立聯合醫院中興院區",
-                "address" : "臺北市大同區鄭州路145號",
-                "lng" : "121.5372058",
-                "lat" : "25.0602607",
-                "information" : "連絡電話 02-2552-3234"
-              },
-              {
-                "dataSource":"clothesBox",
-                "garbageType" :["clothes"],
-                "name" : "自閉症家長協會",
-                "address" : "文山區景福街223巷口(學校圍牆邊)",
-                "lng" : "121.5372058",
-                "lat" : "25.0602607"
-              }
-            ]
-          };
-
-          if(result.totalcount>0){
-
-            app.searchResult=new app.dataMain(result.collectionPoints);
-
-          }else{
-            //display no result message
-          }
 
         },
         searchByTime:function(){
@@ -952,6 +897,7 @@
          return this;
         },
         setCenter:function(){
+        console.log("set center in data view"+this.model.get("lat")+"/"+this.model.get("lng"));
           map.setCenter(Number(this.model.get("lat")), Number(this.model.get("lng")));
           $('html, body').animate({
             scrollTop: $("#mapBox").offset().top + 'px'
@@ -969,15 +915,19 @@
         render: function(collection) {
           $("#resultList").empty();
           $("#resultList").prepend('<li class="resultTitle">查詢結果</li>');
-          collection.each(function(model) {
-            this.renderItem(model);
+          collection.each(function(model,index) {
+            console.log("index="+index);
+            this.renderItem(model,index);
           }, this);
         },
-        renderItem: function(item) {
+        renderItem: function(item,index) {
           var dataView = new app.dataView({
             model: item
           });
           this.$el.append(dataView.render().el);
+          if(!index){
+            dataView.setCenter();
+          }
         },
         filterType:function(){
           console.log("filterType");
