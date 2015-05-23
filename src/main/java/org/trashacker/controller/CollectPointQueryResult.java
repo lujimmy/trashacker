@@ -127,7 +127,10 @@ public class CollectPointQueryResult {
 				aPoint.setLng(String.valueOf(itr.getLongitude()));
 				aPoint.setLat(String.valueOf(itr.getLatitude()));
 				aPoint.setWeekdays(Arrays.asList(1,2,4,5,6));
-				aPoint.setStartTime(itr.getArriveTime().getHours()+":"+itr.getArriveTime().getMinutes());
+				
+				String arriveTime = itr.getArriveTime() == null ? "" :itr.getArriveTime().toString();
+				
+				aPoint.setStartTime(arriveTime.substring(0, arriveTime.lastIndexOf(":")));
 				
 				collectionPoints.add(aPoint);
 				totalcount++;
