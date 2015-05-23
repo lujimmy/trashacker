@@ -643,7 +643,7 @@
             lng: 121.5654335
           });
 
-          //init select
+          //init selectale
           for(var i=8; i<24;i++){
             $.each(["00","30"],function(index,value){
               var str=i+':'+value;
@@ -703,7 +703,7 @@
 
               
               $.ajax({
-                url: 'http://10.0.9.44:8080/collectPoint/query?garbageType=all&lat='+Number(position[0])+'&lng='+Number(position[1])+'&square=0.02',
+                url: '/collectPoint/query?garbageType=all&lat='+Number(position[0])+'&lng='+Number(position[1])+'&square=0.02',
                 type:"GET",
                 contentType: 'application/json',
                // dataType: 'jsonp',
