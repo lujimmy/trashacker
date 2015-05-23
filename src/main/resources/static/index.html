@@ -46,12 +46,38 @@
       line-height: 38px;
       background: aquamarine;
     }
+
+    /*
     .field label{
       line-height: 32px;
       padding: 0 20px;
       width: 30%;
-    }
+    }*/
  
+    #keywordResult{
+  width: 90%;
+  background-color: #fff;
+  padding: 10px 15px;
+  margin: 10px 0;
+  float: left;
+  font-size: 13px;
+  line-height: 22px;
+  box-shadow: 0 0 1px #999;
+  border-radius: 3px;
+  display: none;
+    }
+    .resultRow{
+      width: 100%;
+
+    }
+    .keywordResultTitle{
+        width: 120px;
+  display: inline-block;
+  font-weight: bold;
+    }
+    .resultValue{}
+
+
     .inputBox{
       margin:0 auto;
     }
@@ -461,6 +487,11 @@
         background: #fff;
         margin: 20px 0 0 0;
       }
+
+
+
+
+
       .icon-search{
         margin:10px 0;
         width: 100%;
@@ -529,7 +560,7 @@
               <div class="selectType">  
                 <ul id="typeList">
                   <li class="filled" value="searchByAddress">地址查詢</li>
-                  <li value="searchByTime">時間查詢</li>
+              <!--    <li value="searchByTime">時間查詢</li>-->
                   <li value="searchBykeyword">垃圾分類</li>
                 </ul>        
               </div>
@@ -543,24 +574,25 @@
                   <div class="icon-search submitAddress"><i></i>查詢</div>
                 </div>
               </div>
+              <!--
               <div class="fieldBox" id="searchByTime">
                 <div class="selectBox">
                 起<select name="startTime" class="custom-dropdown"></select>
                 迄<select name="endTime" class="custom-dropdown"></select>
               </div>
               <div class="icon-search submitTime">查詢</div>
-              </div>
+              </div>-->
               <div  class="fieldBox" id="searchBykeyword">
                 <div class="inputBox">
-                  <input type="text" name="address" placeholder="keyword">
+                  <input type="text" name="keyword" placeholder="keyword">
                   <div class="icon-search submitKeyword"><i></i>查詢</div>
                 </div>
+                <div id="keywordResult"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
- 
  
       <div id="contentBox">
         <div class="wrapper">
@@ -629,7 +661,7 @@
           'click #filterPanel ul li':'switchFilterStatus',
           'click .submitAddress':'searchByAddress',
           'click .submitTime':'searchByTime',
-          'click .submitKeyword':'submitKeyword'
+          'click .submitKeyword':'searchBykeyword'
         },
         initialize:function(){
 
@@ -640,11 +672,12 @@
           map = new GMaps({
             el: '#map',
             lat: 25.0336048,
-            lng: 121.5654335
+            lng: 121.5654335,
+            zoom: 15
           });
 
           //init selectale
-          for(var i=8; i<24;i++){
+          for(var i=0; i<24;i++){
             $.each(["00","30"],function(index,value){
               var str=i+':'+value;
               $.each(["startTime","endTime"],function(n,m){
@@ -652,7 +685,6 @@
               });
             });
           }
-
 
         },
         getCurrentLocation:function(){
@@ -687,6 +719,11 @@
         },
         searchByAddress:function(){
           var address=$('input[name="address"]').val();
+          var startTime=$.trim($('select[name="startTime"]').val());
+          var endTime=$.trim($('select[name="endTime"]').val());
+          var timeStr=(startTime!==endTime)?"&startTime="+startTime+"&endTime="+endTime:"";
+
+
           var position;
 
           var geocoder = new google.maps.Geocoder();
@@ -703,7 +740,7 @@
 
               
               $.ajax({
-                url: '/collectPoint/query?garbageType=all&lat='+Number(position[0])+'&lng='+Number(position[1])+'&square=0.02',
+                url: 'http://10.0.9.44:8080/collectPoint/query?garbageType=all&lat='+Number(position[0])+'&lng='+Number(position[1])+'&square=0.005'+timeStr,
                 type:"GET",
                 contentType: 'application/json',
                // dataType: 'jsonp',
@@ -734,6 +771,38 @@
         },
         searchBykeyword:function(){
           console.log("searchBykeyword");
+          var keyword=$.trim($('input[name="keyword"]').val());
+
+
+
+          $.ajax({
+              url: 'http://10.0.9.44:8080/trash/classification?q='+keyword,
+              type:"GET",
+              contentType: 'application/json',
+              dataType:'json',
+              success: function(res){
+
+                $("#keywordResult").empty();
+                if(res.count!==0){
+                   $("#keywordResult").fadeIn();
+                   console.log("@@@@@"+res.results);
+
+                   $.each(res.result.results,function(index,object){
+                    $.each(["垃圾項目","關鍵字","處理說明","分類大類別","分類子類別","回收時間"],function(i,v){
+                      $("#keywordResult").append('<div class="resultRow"><span class="keywordResultTitle">'+v+'</span><span class="resultValue">'+object[v]+'</span></div>');
+                    });
+                   });
+
+
+                }else{
+                  $("#keywordResult").hide();
+                }
+              },
+             error:function(xhr, ajaxOptions, thrownError){
+            //    alert(xhr.status);
+          //      alert(thrownError);
+             }
+          });
         }
 
       });
@@ -833,18 +902,15 @@
         render: function(collection) {
           $("#resultList").empty();
           $("#resultList").prepend('<li class="resultTitle">查詢結果</li>');
-          collection.each(function(model,index) {
-            this.renderItem(model,index);
+          collection.each(function(model) {
+            this.renderItem(model);
           }, this);
         },
-        renderItem: function(item,index) {
+        renderItem: function(item) {
           var dataView = new app.dataView({
             model: item
           });
           this.$el.append(dataView.render().el);
-          if(!index){
-            dataView.setCenter();
-          }
         },
         filterType:function(){
 
