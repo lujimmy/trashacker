@@ -1,6 +1,5 @@
 package org.trashacker.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -21,9 +20,6 @@ public class MedicationDisposalSite {
     private String address;
 
     private String phone;
-
-    @Column(name = "phone_extension")
-    private String phoneExtension;
 
     private double longitude;
 
@@ -59,14 +55,6 @@ public class MedicationDisposalSite {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getPhoneExtension() {
-        return phoneExtension;
-    }
-
-    public void setPhoneExtension(String phoneExtension) {
-        this.phoneExtension = phoneExtension;
     }
 
     public double getLongitude() {
