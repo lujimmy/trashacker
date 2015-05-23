@@ -186,8 +186,7 @@ public class CollectPointQueryResult {
 				aPoint.setLng(String.valueOf(itr.getLongitude()));
 				aPoint.setLat(String.valueOf(itr.getLatitude()));
 				
-				final String phone = StringUtils.isEmpty(itr.getPhoneExtension()) ? itr.getPhone() : itr.getPhone()+"#"+itr.getPhoneExtension();			
-				aPoint.setInformation("Phone : "+phone);
+				aPoint.setInformation("Phone : "+itr.getPhone());
 				
 				collectionPoints.add(aPoint);
 				totalcount++;
