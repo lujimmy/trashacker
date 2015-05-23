@@ -325,9 +325,13 @@
         initialize:function(){
 
           map.addMarker({
-            lat: Number(this.model.get("lat")),
+            lat: Number(this.model.get("lat")), 
             lng: Number(this.model.get("lng")),
             title: 'Lima',
+            icon:{
+              url: "image/"+this.model.get("dataSource")+".png", // url
+              scaledSize: new google.maps.Size(25, 25)
+            },
             infoWindow: {
               content: '<p><b>地點</b>：'+this.model.get("address")+'<br/><b>日期</b>：'+this.model.get("weekdays")+'<br/><b>時間</b>：<span style="color:rgb(203, 33, 33)">'+this.model.get("startTime")+'~'+this.model.get("endTime")+'</span><br/><b>更多資訊</b>：<br/>'+this.model.get("information")+'</p>'
             }
