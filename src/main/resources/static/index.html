@@ -137,14 +137,12 @@
       border: none;
       margin-left: 0px;
 
- 
     }
  
  
     #filterIcon{
       line-height: 23px;
       cursor: pointer;
-      /* padding-left: 10px; */
       background: #999E9E;
       color: #fff;
       width: 60px;
@@ -154,16 +152,8 @@
       text-align: center;
     }
     #filterIcon:hover{background: #6E7676;}
-    #filterIcon:active{background: #353C3C;}/*
-    #filterIcon:before{
-      content: '';
-      background: url("image/filter.png");
-      width: 10px;
-      height: 10px;
-      background-size: contain;
-      display: inline-block;
-      margin-right: 5px;
-    }*/
+    #filterIcon:active{background: #353C3C;}
+
     #filterBox{
       width: 150px;
       height: 430px;
@@ -234,27 +224,16 @@
       border: 1px solid #C4C2D8;
     }
     
- 
- 
- 
-   /* #filterPanel ul .filter-general:hover{background:red;}
-   */
     #filterPanel ul li.filter-general:before{border-color:#88c73d;}
-    .filter-general.filled:before{background: rgba(136,199,61,.7);}/*
-    .filter-general:hover:before{background:rgba(185, 223, 139, 0.7);}*/
+    .filter-general.filled:before{background: rgba(136,199,61,.7);}
     #filterPanel ul li.filter-recylce:before{border-color:#d89e8f;}
-    .filter-recylce.filled:before{background: rgba(216,158,143,.7);}/*
-    .filter-recylce:hover:before{background:rgba(237, 212, 205, 0.7);}*/
+    .filter-recylce.filled:before{background: rgba(216,158,143,.7);}
     #filterPanel ul li.filter-clothes:before{border-color:#831846;}
-    .filter-clothes.filled:before{background: rgba(131,24,70,.7);}/*
-    .filter-clothes:hover:before{background:rgba(190, 138, 161, 0.7);}*/
+    .filter-clothes.filled:before{background: rgba(131,24,70,.7);}
     #filterPanel ul li.filter-drug:before{border-color:#42b1ca;}
-    .filter-drug.filled:before{background: rgba(66,177,202,.7);}/*
-    .filter-drug:hover:before{background:rgba(171, 224, 236, 0.7);}*/      
- 
+    .filter-drug.filled:before{background: rgba(66,177,202,.7);}   
     #filterPanel ul li.filter-foodScrap:before{border-color:#7958a9;}
-    .filter-foodScrap.filled:before{background: rgba(121,88,169,.7);}/*
-    .filter-foodScrap:hover:before{background:rgba(181, 163, 208, 0.7);}*/    
+    .filter-foodScrap.filled:before{background: rgba(121,88,169,.7);}   
  
     .generalIcon,.recycleIcon,.clothesIcon,.drugIcon,.foodScrapIcon{
       width: 10px;
@@ -342,6 +321,7 @@
         float: left;
         min-height: 135px;
         padding-left: 10px;
+        margin-bottom: 15px;
       }
       #panelRight{
         width: 18%;
@@ -414,7 +394,7 @@
         width: 120px;
       }
 
-      .selectBox{float: left;}
+      .selectBox{float: left;margin-bottom: 20px;}
 
       .timeField{
         color: rgb(203, 33, 33);
@@ -425,19 +405,6 @@
         margin: 12px 0 0 0;
         font-size: 14px;
       }
- /*
-      @media only screen and (max-width: 1260px){
-        .thumbnail{height: 180px;}
-      }
- 
- 
-    @media only screen and (max-width: 880px){
-      .footerGrid{
-        max-width: 48%;
-        margin-right: 2%;
-      }
-      .thumbnail{height:200px;}
-    }*/
  
     @media only screen and (max-width: 660px){
       #header{
@@ -567,7 +534,10 @@
                 </ul>        
               </div>
               <div class="fieldBox" id="searchByAddress">
- 
+                 <div class="selectBox">
+                  起<select name="startTime" class="custom-dropdown"></select>
+                  迄<select name="endTime" class="custom-dropdown"></select>
+                </div>
                 <div class="inputBox">
                   <input type="text" name="address" placeholder="Address">
                   <div class="icon-search submitAddress"><i></i>查詢</div>
@@ -618,44 +588,7 @@
           </div>
         </div>
       </div>
- 
- 
- 
- 
-<!--
 
-    <div id="footer">
-     <div class="footerTitle">暸解更多垃圾資訊</div>
-      <div class="footerGrid">
-        <div class="thumbnail"></div>
-        <div class="gridContentBox">
-          <div class="gridTitle">Internet.org innovation lab</div>
-          <div class="gridContent">Test on a 2G network to know how your app performs in lower bandwidth markets.</div>
-        </div>
-      </div>
-      <div class="footerGrid">
-        <div class="thumbnail"></div>
-        <div class="gridContentBox">
-          <div class="gridTitle">Internet.org innovation lab</div>
-          <div class="gridContent">Test on a 2G network to know how your app performs in lower bandwidth markets.</div>
-        </div>
-      </div>
-      <div class="footerGrid">
-        <div class="thumbnail"></div>
-        <div class="gridContentBox">
-          <div class="gridTitle">Internet.org innovation lab</div>
-          <div class="gridContent">Test on a 2G network to know how your app performs in lower bandwidth markets.</div>
-        </div>
-      </div>
-      <div class="footerGrid">
-        <div class="thumbnail"></div>
-        <div class="gridContentBox">
-          <div class="gridTitle">Internet.org innovation lab</div>
-          <div class="gridContent">Test on a 2G network to know how your app performs in lower bandwidth markets.</div>
-        </div>
-      </div>
-    </div>
--->
   <footer>
     <div class="wrapper">
       <div class="footerLeft">
@@ -701,22 +634,6 @@
         initialize:function(){
 
           console.log("init ...");
-/*
-          var x = document.getElementById("demo");
-
-          function getLocation() {
-              if (navigator.geolocation) {
-                  navigator.geolocation.getCurrentPosition(showPosition);
-              } else {
-                  x.innerHTML = "Geolocation is not supported by this browser.";
-              }
-          }
-          function showPosition(position) {
-            app.userPosition={
-                'lat':position.coords.latitude,
-                'lng':position.coords.longitude
-            } 
-          }*/
 
           this.getCurrentLocation();
           //init map
@@ -739,12 +656,10 @@
 
         },
         getCurrentLocation:function(){
-    //      console.log("getCurrentLocation"+navigator.geolocation);
           
           if (navigator.geolocation) {
           //    console.log("$$$"+navigator.geolocation.getCurrentPosition());
               navigator.geolocation.getCurrentPosition(function(position){
-                alert(position.coords.latitude);
               //  console.log("position.coords.latitude="+position.coords.latitude+"/position.coords.longitude="+position.coords.longitude);
                 app.userPosition.lat=position.coords.latitude;
                 app.userPosition.lng=position.coords.longitude
@@ -788,8 +703,8 @@
 
               
               $.ajax({
-                url: 'http:localhost:8080/collectPoint/query?garbageType=all&lat='+Number(position[0])+'&lng='+Number(position[1])+'&square=0.2',
-                type:"POST",
+                url: 'http://10.0.9.44:8080/collectPoint/query?garbageType=all&lat='+Number(position[0])+'&lng='+Number(position[1])+'&square=0.02',
+                type:"GET",
                 contentType: 'application/json',
                // dataType: 'jsonp',
                 success: function(result){
@@ -803,8 +718,8 @@
                   }
                 },
                error:function(xhr, ajaxOptions, thrownError){
-                  alert(xhr.status);
-                  alert(thrownError);
+              //    alert(xhr.status);
+            //      alert(thrownError);
                }
               });
 
@@ -842,7 +757,7 @@
         },
         initialize:function(){
           console.log("init mode...");
-
+          var $that=this;
           switch(this.get("dataSource")){
             case 'trashCars':
               this.set("information","週一、二、四、五、六 : 一般垃圾與廚餘, 週一、五： 平面類：紙類,舊衣類,乾淨塑膠袋, 週二、四、六： 立體類︰乾淨保麗龍, 一般類（瓶罐、容器、小家電等）");
@@ -851,6 +766,12 @@
               this.set("information","週三、日18時至21時, 廚餘專用限時收受點");
               break;
           }
+          $.each(["startTime","endTime","information"],function(i,v){
+            if($that.get(v)==null){
+              $that.set(v,"");
+            }
+          });
+
         }
       });
       app.dataCollection= Backbone.Collection.extend({
@@ -884,11 +805,8 @@
             lat: Number(this.model.get("lat")),
             lng: Number(this.model.get("lng")),
             title: 'Lima',
-       /*     click: function(e) {
-              alert('You clicked in this marker');
-            },*/
             infoWindow: {
-              content: '<p>Information:<br/>'+this.model.get("information")+'</p>'
+              content: '<p><b>地點</b>:'+this.model.get("address")+'<br/><b>日期</b>：'+this.model.get("weekdays")+'<br/><b>時間</b>：<span style="color:rgb(203, 33, 33)">'+this.model.get("startTime")+'~'+this.model.get("endTime")+'</span><br/><b>更多資訊</b>：<br/>'+this.model.get("information")+'</p>'
             }
           });
         },
@@ -916,7 +834,6 @@
           $("#resultList").empty();
           $("#resultList").prepend('<li class="resultTitle">查詢結果</li>');
           collection.each(function(model,index) {
-            console.log("index="+index);
             this.renderItem(model,index);
           }, this);
         },
@@ -930,19 +847,14 @@
           }
         },
         filterType:function(){
-          console.log("filterType");
 
           var selectedType=[];
 
           $("#filterPanel .filled").each(function(i,v){
-            console.log("selectedType="+$(this).attr("value"));
             selectedType.push($(this).attr("value"));
           });
-
-          console.log("selectedarray"+selectedType);
-
+          map.removeMarkers();
           var filterResult=this.collection.filterByType(selectedType);
-          console.log("result length="+filterResult);
           this.render(new app.dataCollection(filterResult));
 
         }
