@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import org.trashacker.domain.ClothesRecyclingBox;
 import org.trashacker.domain.GarbageTruckRoadmap;
 import org.trashacker.domain.MedicationDisposalSite;
+import org.trashacker.domain.PedestrianTrashBox;
 import org.trashacker.domain.RecyclingFoodWasteDepot;
 import org.trashacker.domain.WedSunFoodWasteDepot;
 import org.trashacker.service.SearchResultBean;
@@ -201,6 +202,22 @@ public class CollectPointQueryResult {
 				aPoint.setDataSource("clothesBox");				
 				aPoint.setGarbageType(Arrays.asList("clothes"));
 				aPoint.setName(itr.getOrganization());
+				aPoint.setAddress(itr.getAddress());
+				aPoint.setLng(String.valueOf(itr.getLongitude()));
+				aPoint.setLat(String.valueOf(itr.getLatitude()));
+				
+				collectionPoints.add(aPoint);
+				totalcount++;
+			}
+		}
+		
+		if (searchSesultBean.getTrashBoxs() != null){
+			Iterator<PedestrianTrashBox> clothesPoints = searchSesultBean.getTrashBoxs().iterator();
+			while (clothesPoints.hasNext()){
+				PedestrianTrashBox itr = clothesPoints.next();
+				CollectPoint aPoint = new CollectPoint();
+				aPoint.setDataSource("trashBox");				
+				aPoint.setGarbageType(Arrays.asList("general"));
 				aPoint.setAddress(itr.getAddress());
 				aPoint.setLng(String.valueOf(itr.getLongitude()));
 				aPoint.setLat(String.valueOf(itr.getLatitude()));

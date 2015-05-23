@@ -11,6 +11,7 @@ import org.trashacker.data.domain.PointType;
 import org.trashacker.repository.ClothesRecyclingBoxRepo;
 import org.trashacker.repository.GarbageTruckRoadmapRepo;
 import org.trashacker.repository.MedicationDisposalSiteRepo;
+import org.trashacker.repository.PedestrianTrashBoxRepo;
 import org.trashacker.repository.RecyclingFoodWasteDepotRepo;
 import org.trashacker.repository.WedSunFoodWasteDepotRepo;
 
@@ -31,6 +32,9 @@ public class SearchCollectPointService {
 	
 	@Autowired
 	GarbageTruckRoadmapRepo garbageTruckRoadmapRepo;
+	
+	@Autowired
+	PedestrianTrashBoxRepo pedestrianTrashBoxRepo;
 
 	public SearchResultBean searchAllTypePointsByLocation(List<String> queryTypes, float maxLat, float minLat, float maxLng, float minLng){
 		SearchResultBean result = new SearchResultBean();
@@ -38,6 +42,7 @@ public class SearchCollectPointService {
 		if (queryTypes.contains(GarbageType.GENERAL.getName()) || queryTypes.contains(GarbageType.RECYCLE.getName()) || queryTypes.contains(GarbageType.FOOD_SCRAP.getName())){
 			result.setFixedPoints(recyclingFoodWasteDepotRepo.getByLocationRange(maxLat, minLat, maxLng, minLng));
 			result.setGarbageCar(garbageTruckRoadmapRepo.getByLocationRange(maxLat, minLat, maxLng, minLng));
+			result.setTrashBoxs(pedestrianTrashBoxRepo.getByLocationRange(maxLat, minLat, maxLng, minLng));
 		}
 		
 		if (queryTypes.contains(GarbageType.FOOD_SCRAP.getName())){
@@ -86,7 +91,7 @@ public class SearchCollectPointService {
 		if (queryTypes.contains(GarbageType.GENERAL.getName()) || queryTypes.contains(GarbageType.RECYCLE.getName()) || queryTypes.contains(GarbageType.FOOD_SCRAP.getName())){
 			
 			result.setGarbageCar(garbageTruckRoadmapRepo.getByLocationAndTimeRange(maxLat, minLat, maxLng, minLng, arrive, leave));
-			
+			result.setTrashBoxs(pedestrianTrashBoxRepo.getByLocationRange(maxLat, minLat, maxLng, minLng));
 			if (queryStartTime.after(PointType.FIXED_POINT.getStartTime()) && queryStartTime.before(PointType.FIXED_POINT.getEndTime())){
 				result.setFixedPoints(recyclingFoodWasteDepotRepo.getByLocationRange(maxLat, minLat, maxLng, minLng));
 			}
