@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS `trashacker`.`garbage_truck_roadmap` (
   PRIMARY KEY (`id`));
 
 ALTER TABLE `trashacker`.`garbage_truck_roadmap`
-CHANGE COLUMN `longitude` `longitude` DECIMAL(16,13) NOT NULL ,
-CHANGE COLUMN `latitude` `latitude` DECIMAL(16,13) NOT NULL ,
+CHANGE COLUMN `longitude` `longitude` DECIMAL(16,13) ,
+CHANGE COLUMN `latitude` `latitude` DECIMAL(16,13) ,
 ADD INDEX `lng_lat` (`longitude` ASC, `latitude` ASC);
 
 
@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS`trashacker`.`recycling_food_waste_depot` (
   `latitude` DECIMAL(16,13) NULL COMMENT 'Lat');
 
 ALTER TABLE `trashacker`.`recycling_food_waste_depot`
-CHANGE COLUMN `longitude` `longitude` DECIMAL(16,13) NOT NULL ,
-CHANGE COLUMN `latitude` `latitude` DECIMAL(16,13) NOT NULL ,
+CHANGE COLUMN `longitude` `longitude` DECIMAL(16,13) ,
+CHANGE COLUMN `latitude` `latitude` DECIMAL(16,13) ,
 ADD INDEX `lng_lat` (`longitude` ASC, `latitude` ASC);
 
 
@@ -51,8 +51,8 @@ CREATE TABLE IF NOT EXISTS`trashacker`.`wed_sun_food_waste_depot` (
   PRIMARY KEY (`id`));
 
 ALTER TABLE `trashacker`.`wed_sun_food_waste_depot`
-CHANGE COLUMN `longitude` `longitude` DECIMAL(16,13) NOT NULL ,
-CHANGE COLUMN `latitude` `latitude` DECIMAL(16,13) NOT NULL ,
+CHANGE COLUMN `longitude` `longitude` DECIMAL(16,13),
+CHANGE COLUMN `latitude` `latitude` DECIMAL(16,13),
 ADD INDEX `lng_lat` (`longitude` ASC, `latitude` ASC);
 
 
@@ -67,8 +67,8 @@ CREATE TABLE IF NOT EXISTS`trashacker`.`medication_disposal_site` (
   PRIMARY KEY (`id`));
 
 ALTER TABLE `trashacker`.`medication_disposal_site`
-CHANGE COLUMN `longitude` `longitude` DECIMAL(16,13) NOT NULL ,
-CHANGE COLUMN `latitude` `latitude` DECIMAL(16,13) NOT NULL ,
+CHANGE COLUMN `longitude` `longitude` DECIMAL(16,13) ,
+CHANGE COLUMN `latitude` `latitude` DECIMAL(16,13) ,
 ADD INDEX `lng_lat` (`longitude` ASC, `latitude` ASC);
 
 
@@ -83,8 +83,8 @@ CREATE TABLE IF NOT EXISTS`trashacker`.`clothes_recycling_box` (
   PRIMARY KEY (`id`));
 
 ALTER TABLE `trashacker`.`clothes_recycling_box`
-CHANGE COLUMN `longitude` `longitude` DECIMAL(16,13) NOT NULL ,
-CHANGE COLUMN `latitude` `latitude` DECIMAL(16,13) NOT NULL ,
+CHANGE COLUMN `longitude` `longitude` DECIMAL(16,13) ,
+CHANGE COLUMN `latitude` `latitude` DECIMAL(16,13) ,
 ADD INDEX `lng_lat` (`longitude` ASC, `latitude` ASC);
 
 
