@@ -132,6 +132,10 @@ public class CollectPointQueryResult {
 				
 				aPoint.setStartTime(arriveTime.substring(0, arriveTime.lastIndexOf(":")));
 				
+				String leaveTime = itr.getLeaveTime() == null ? "" :itr.getLeaveTime().toString();
+				
+				aPoint.setEndTime(leaveTime.substring(0, leaveTime.lastIndexOf(":")));
+				
 				collectionPoints.add(aPoint);
 				totalcount++;
 			}
@@ -220,7 +224,7 @@ public class CollectPointQueryResult {
 				PedestrianTrashBox itr = clothesPoints.next();
 				CollectPoint aPoint = new CollectPoint();
 				aPoint.setDataSource("trashBox");				
-				aPoint.setGarbageType(Arrays.asList("general"));
+				aPoint.setGarbageType(Arrays.asList("trashBox"));
 				aPoint.setAddress(itr.getAddress());
 				aPoint.setLng(String.valueOf(itr.getLongitude()));
 				aPoint.setLat(String.valueOf(itr.getLatitude()));
