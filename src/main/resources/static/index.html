@@ -635,12 +635,12 @@
 
           console.log("init ...");
 
-          this.getCurrentLocation();
+          //this.getCurrentLocation();
           //init map
           map = new GMaps({
             el: '#map',
-            lat: app.userPosition.lat||25.0336048,
-            lng: app.userPosition.lng||121.5654335
+            lat: 25.0336048,
+            lng: 121.5654335
           });
 
           //init select
@@ -806,7 +806,7 @@
             lng: Number(this.model.get("lng")),
             title: 'Lima',
             infoWindow: {
-              content: '<p><b>地點</b>:'+this.model.get("address")+'<br/><b>日期</b>：'+this.model.get("weekdays")+'<br/><b>時間</b>：<span style="color:rgb(203, 33, 33)">'+this.model.get("startTime")+'~'+this.model.get("endTime")+'</span><br/><b>更多資訊</b>：<br/>'+this.model.get("information")+'</p>'
+              content: '<p><b>地點</b>：'+this.model.get("address")+'<br/><b>日期</b>：'+this.model.get("weekdays")+'<br/><b>時間</b>：<span style="color:rgb(203, 33, 33)">'+this.model.get("startTime")+'~'+this.model.get("endTime")+'</span><br/><b>更多資訊</b>：<br/>'+this.model.get("information")+'</p>'
             }
           });
         },
