@@ -17,4 +17,7 @@ public interface GarbageTruckRoadmapRepo extends CrudRepository<GarbageTruckRoad
 
     @Query("select g from GarbageTruckRoadmap g where g.arriveTime >= ?1 and g.leaveTime <= ?2")
     Iterable<GarbageTruckRoadmap> getByTimeRange(Time arrive, Time leave);
+    
+    @Query("select g from GarbageTruckRoadmap g where g.latitude <= ?1 and g.latitude >= ?2 and g.longitude <= ?3 and g.longitude >= ?4 and g.arriveTime >= ?5 and g.leaveTime <= ?6")
+    Iterable<GarbageTruckRoadmap> getByLocationAndTimeRange(double maxLat, double minLat, double maxLng, double minLng,Time arrive, Time leave);
 }

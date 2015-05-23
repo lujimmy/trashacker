@@ -21,21 +21,26 @@ public class CollectPointQueryController {
 	SearchCollectPointService searchCollectPointService;
 
     @RequestMapping("/collectPoint/query")
-    public CollectPointQueryResult greeting(@RequestParam(value="garbageType", defaultValue="all") String garbageType, 
+    public CollectPointQueryResult queryPoint(@RequestParam(value="garbageType", defaultValue="all") String garbageType, 
     		@RequestParam(value="lat", required=false) String lat, @RequestParam(value="lng", required=false) String lng, @RequestParam(value="square", required=false) String square,
-    		@RequestParam(value="startTime", required=false) String startTime, @RequestParam(value="endTime", required=false) String endTime) {
+    		@RequestParam(value="startTime", defaultValue="") String startTime, @RequestParam(value="endTime", defaultValue="") String endTime) {
     	
     	SearchResultBean searchResultBean = null;
-    	if (!StringUtils.isEmpty(lat) && !StringUtils.isEmpty(lng)){
-    		float latValue = Float.valueOf(lat);
-    		float lngValue = Float.valueOf(lng);
-    		float squareValue = StringUtils.isEmpty(square) ? Float.valueOf("0.0005") : Float.valueOf(square);
-    		searchResultBean = searchCollectPointService.searchAllTypePointsByLocation(latValue + squareValue, latValue - squareValue, lngValue + squareValue, lngValue - squareValue);
+    	
+    	List<String> queryTypes = this.getQueryTypes(garbageType);
+		float latValue = Float.valueOf(lat);
+		float lngValue = Float.valueOf(lng);
+		float squareValue = StringUtils.isEmpty(square) ? Float.valueOf("0.0005") : Float.valueOf(square);
+		String[] start = startTime.split(":");
+		String[] end = endTime.split(":");
+		
+    	if (!StringUtils.isEmpty(lat) && !StringUtils.isEmpty(lng) && !StringUtils.isEmpty(startTime) && !StringUtils.isEmpty(endTime)){
+    		searchResultBean = searchCollectPointService.searchByTimeAndLocation(queryTypes, latValue + squareValue, latValue - squareValue, lngValue + squareValue, lngValue - squareValue,
+    				new Time(Integer.valueOf(start[0]), Integer.valueOf(start[1]),0), new Time(Integer.valueOf(end[0]), Integer.valueOf(end[1]),0));
+    	} else if (!StringUtils.isEmpty(lat) && !StringUtils.isEmpty(lng)){
+    		searchResultBean = searchCollectPointService.searchAllTypePointsByLocation(queryTypes,latValue + squareValue, latValue - squareValue, lngValue + squareValue, lngValue - squareValue);
     	} else if (!StringUtils.isEmpty(startTime) && !StringUtils.isEmpty(endTime)){
-    		String[] start = startTime.split(":");
-    		String[] end = endTime.split(":");
-    		
-    		searchResultBean = searchCollectPointService.searchAllTypePointsByTime(new Time(Integer.valueOf(start[0]), Integer.valueOf(start[1]),0), new Time(Integer.valueOf(end[0]), Integer.valueOf(end[1]),0));
+    		searchResultBean = searchCollectPointService.searchAllTypePointsByTime(queryTypes,new Time(Integer.valueOf(start[0]), Integer.valueOf(start[1]),0), new Time(Integer.valueOf(end[0]), Integer.valueOf(end[1]),0));
     	}
     	
     	CollectPointQueryResult response = new CollectPointQueryResult(searchResultBean);
@@ -48,6 +53,15 @@ public class CollectPointQueryController {
     	
     	return response;
     	
+    }
+    
+    private List<String> getQueryTypes(final String garbageType){
+    	
+    	if (garbageType.equals("all")){
+    		return Arrays.asList("general","recycle","foodScrap","drug","clothes");
+    	}
+    	
+    	return Arrays.asList(garbageType.split(","));
     }
     
     private CollectPointQueryResult generateFakeData(String garbageType,String lat,String lng,String square,String startTime, String endTime){
