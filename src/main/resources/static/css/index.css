@@ -241,8 +241,8 @@ ul{
 
 #filterPanel ul li.filter-general:before{border-color:#88c73d;}
 .filter-general.filled:before{background: rgba(136,199,61,.7);}
-#filterPanel ul li.filter-recylce:before{border-color:#d89e8f;}
-.filter-recylce.filled:before{background: rgba(216,158,143,.7);}
+#filterPanel ul li.filter-recycle:before{border-color:#d89e8f;}
+.filter-recycle.filled:before{background: rgba(216,158,143,.7);}
 #filterPanel ul li.filter-clothes:before{border-color:#831846;}
 .filter-clothes.filled:before{background: rgba(131,24,70,.7);}
 #filterPanel ul li.filter-drug:before{border-color:#42b1ca;}

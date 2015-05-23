@@ -69,7 +69,7 @@
             <div id="filterPanel">
               <ul>
                 <li value="general" class="filter-general">一般</li>
-                <li value="recylce" class="filter-recylce">回收</li>
+                <li value="recycle" class="filter-recycle">回收</li>
                 <li value="clothes" class="filter-clothes">舊衣</li>
                 <li value="drug" class="filter-drug">藥物</li>
                 <li value="foodScrap" class="filter-foodScrap">廚餘</li>
@@ -178,7 +178,10 @@
         },
         switchFilterStatus:function(e){
            $(e.target).toggleClass("filled");
-            app.searchResult.filterType();
+           if(app.searchResult){
+                        app.searchResult.filterType();
+           }
+
 
         },
         searchByAddress:function(){
