@@ -26,7 +26,7 @@ ADD INDEX `lng_lat` (`longitude` ASC, `latitude` ASC);
 CREATE TABLE IF NOT EXISTS`trashacker`.`recycling_food_waste_depot` (
   `id` INT UNSIGNED NOT NULL COMMENT '_id',
   `region` CHAR(5) NULL COMMENT 'Region',
-  `brach` CHAR(8) NULL COMMENT 'Branch',
+  `branch` CHAR(8) NULL COMMENT 'Branch',
   `phone` CHAR(10) NULL COMMENT 'Phone',
   `address` VARCHAR(100) NULL COMMENT 'Address',
   `memo` VARCHAR(100) NULL COMMENT 'Memo',

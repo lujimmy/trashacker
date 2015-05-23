@@ -1,0 +1,11 @@
+INSERT INTO wed_sun_food_waste_depot (`id`,`region`,`branch`,`address`,`memo`,`longitude`,`latitude`) VALUES ( 1, '中山區', '民二', '臺北市中山區錦州街臨306號', '', 121.5372058, 25.0602607);
+INSERT INTO wed_sun_food_waste_depot (`id`,`region`,`branch`,`address`,`memo`,`longitude`,`latitude`) VALUES ( 2, '中正區', '公館', '臺北市中正區水源路臨2號', '', 121.514838999999, 25.024128);
+INSERT INTO wed_sun_food_waste_depot (`id`,`region`,`branch`,`address`,`memo`,`longitude`,`latitude`) VALUES ( 3, '內湖區', '文德', '臺北市內湖區潭美街成美橋下', '', 121.582303999999, 25.0548189999999);
+INSERT INTO wed_sun_food_waste_depot (`id`,`region`,`branch`,`address`,`memo`,`longitude`,`latitude`) VALUES ( 4, '北投區', '陽明', '臺北市北投區中心街6號對面', '', 121.511852145195, 25.1386267852227);
+INSERT INTO wed_sun_food_waste_depot (`id`,`region`,`branch`,`address`,`memo`,`longitude`,`latitude`) VALUES ( 5, '北投區', '關渡', '臺北市北投區知行路208號對面', '', 121.466859, 25.1193589999999);
+INSERT INTO wed_sun_food_waste_depot (`id`,`region`,`branch`,`address`,`memo`,`longitude`,`latitude`) VALUES ( 6, '北投區', '石牌', '臺北市北投區石牌路一段39巷126號對面', '', 121.509793, 25.1172229999999);
+INSERT INTO wed_sun_food_waste_depot (`id`,`region`,`branch`,`address`,`memo`,`longitude`,`latitude`) VALUES ( 7, '北投區', '光明', '臺北市北投區新興路144號對面', '', 121.4869, 25.139657);
+INSERT INTO wed_sun_food_waste_depot (`id`,`region`,`branch`,`address`,`memo`,`longitude`,`latitude`) VALUES ( 8, '信義區', '福德', '臺北市信義區福德街51巷口', '', 121.580991999999, 25.0364259999999);
+INSERT INTO wed_sun_food_waste_depot (`id`,`region`,`branch`,`address`,`memo`,`longitude`,`latitude`) VALUES ( 9, '信義區', '吳興', '臺北市信義區莊敬路239巷10號左前方2公尺', '信義國小公告欄前育成社會福利基金會舊衣回收箱旁', 121.5612507, 25.0310507999999);
+INSERT INTO wed_sun_food_waste_depot (`id`,`region`,`branch`,`address`,`memo`,`longitude`,`latitude`) VALUES ( 10, '信義區', '六張犁', '臺北市信義區崇德街206巷1號', '', 121.558413, 25.023232);
+INSERT INTO wed_sun_food_waste_depot (`id`,`region`,`branch`,`address`,`memo`,`longitude`,`latitude`) VALUES ( 11, '信義區', '三張犁', '臺北市信義區松隆路36號', '松興超市前', 121.567473, 25.043361);
