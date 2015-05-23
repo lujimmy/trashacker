@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.web.client.RestTemplate;
 
 import java.sql.SQLException;
 
@@ -28,5 +29,10 @@ public class TrashackerApplication {
     @Profile("h2")
     Server createWebServer() throws SQLException {
         return Server.createWebServer("-web", "-webAllowOthers", "-webPort", "8082");
+    }
+
+    @Bean
+    RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }
